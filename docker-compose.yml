@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: ./Dockerfile.server
+    ports:
+      - "11003:11003"
+    networks:
+      - my-network
+    container_name: server-container
+
+  client:
+    build:
+      context: ./client
+      dockerfile: ./Dockerfile.client
+    depends_on:
+      - server
+    networks:
+      - my-network
+    container_name: client-container
+    environment:
+      - SERVER_URL=https://server-container:11003
+
+
+networks:
+  my-network:
+
+
